@@ -54,13 +54,13 @@ namespace KarelTheRobot
             switch (_direction)
             {
                 case Direction.North:
-                    return "^";
+                    return "▲";
                 case Direction.South:
-                    return "v";
+                    return "▼";
                 case Direction.East:
-                    return ">";
+                    return "▶";
                 case Direction.West:
-                    return "<";
+                    return "◀";
                 default:
                     throw new Exception("Invalid Direction");
             }

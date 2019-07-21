@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KarelTheRobot
+﻿namespace KarelTheRobot
 {
     class Program
     {
