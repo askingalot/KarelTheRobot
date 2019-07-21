@@ -2,6 +2,15 @@ using System;
 
 namespace KarelTheRobot
 {
+    public class RobotDestructionException : Exception {
+        public RobotDestructionException(string message) 
+            : base($"Robot Destroyed! ({message})") { }
+    }
+
+    public class RobotWallCollisionException : RobotDestructionException {
+        public RobotWallCollisionException() : base("Hit a wall") { }
+    }
+
     public class Robot
     {
         // Run East - West
@@ -12,7 +21,7 @@ namespace KarelTheRobot
         private int _avenue = 1;
         public int Avenue => _avenue;
 
-        private Direction _direction = Direction.North;
+        private Direction _direction = Direction.East;
         private readonly World _world;
 
         public Robot(World world)
@@ -24,22 +33,29 @@ namespace KarelTheRobot
 
         public void Move()
         {
+            var (street, avenue) = (_street, _avenue);
             switch (_direction)
             {
                 case Direction.North:
-                    _street--;
+                    street++;
                     break;
                 case Direction.South:
-                    _street++;
+                    street--;
                     break;
                 case Direction.East:
-                    _avenue++;
+                    avenue++;
                     break;
                 case Direction.West:
-                    _avenue--;
+                    avenue--;
                     break;
             }
+
+            (_street, _avenue) = (street, avenue);
             _world.Display();
+
+            if (_world.ObjectTypeAt(street, avenue) == ObjectType.Wall) {
+                throw new RobotWallCollisionException();
+            }
         }
 
         public void TurnLeft()
@@ -59,6 +75,7 @@ namespace KarelTheRobot
                     _direction = Direction.South;
                     break;
             }
+            _world.Display();
         }
 
         public override string ToString()

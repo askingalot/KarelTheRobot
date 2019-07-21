@@ -16,6 +16,22 @@ namespace KarelTheRobot
             _robot = robot;
         }
 
+        public ObjectType ObjectTypeAt(int street, int avenue)
+        {
+            if (street == 0 || avenue == 0 ||
+                street == _streetCount + 1 || avenue == _avenueCount + 1)
+            {
+                return ObjectType.Wall;
+            }
+            if (street < 0 || avenue < 0 ||
+                street > _streetCount + 1 || avenue > _avenueCount + 1)
+            {
+                throw new Exception("Location outside the world");
+            }
+
+            return ObjectType.Emptiness;
+        }
+
         public void Display()
         {
             int padding = 3;
@@ -49,8 +65,10 @@ namespace KarelTheRobot
             Console.Write(lowerRight);
             Console.Write(new string('\n', padding));
 
-            Console.SetCursorPosition(_robot.Avenue + borderSize + padding,
-                                      _robot.Street + borderSize + padding);
+            Console.SetCursorPosition(
+                (_robot.Avenue - 1) + borderSize + padding,
+                (_streetCount - _robot.Street - 1) + borderSize + padding);
+
             Console.Write(_robot);
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
