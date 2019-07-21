@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace KarelTheRobot
@@ -7,12 +9,26 @@ namespace KarelTheRobot
     {
         private int _streetCount = 10;
         private int _avenueCount = 20;
-
         private Robot _robot;
+        private List<Beeper> _beepers = new List<Beeper> {
+            new Beeper { Street = 2, Avenue = 4 },
+            new Beeper { Street = 10, Avenue = 15 },
+            new Beeper { Street = 5, Avenue = 19 },
+        };
 
         public void PlaceRobot(Robot robot)
         {
             _robot = robot;
+        }
+
+        public void PlaceBeeper(Beeper beeper) {
+            if (!_beepers.Contains(beeper)) {
+                _beepers.Add(beeper);
+            }
+        }
+
+        public void GetBeeper() {
+
         }
 
         public ObjectType ObjectTypeAt((int street, int avenue) pos) =>
@@ -69,8 +85,14 @@ namespace KarelTheRobot
             Console.SetCursorPosition(
                 _robot.Avenue + padding,
                 (_streetCount - _robot.Street) + padding);
-
             Console.Write(_robot);
+
+            foreach (var beeper in _beepers) {
+                Console.SetCursorPosition(
+                    beeper.Avenue + padding,
+                    (_streetCount - beeper.Street) + padding);
+                Console.Write(beeper);
+            }
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
             Thread.Sleep(500);

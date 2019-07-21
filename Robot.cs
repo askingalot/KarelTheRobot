@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
@@ -15,6 +16,7 @@ namespace KarelTheRobot
 
         private Direction _direction = Direction.East;
         private readonly World _world;
+        private readonly List<Beeper> _bag = new List<Beeper>();
 
         public Robot(World world)
         {
@@ -31,6 +33,10 @@ namespace KarelTheRobot
 
         public bool RightIsClear =>
             _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
+
+        public void PickBeeper() {
+
+        }
 
         public void Move()
         {
@@ -122,5 +128,7 @@ namespace KarelTheRobot
                 }
             }
         }
+
+        public List<Beeper> Bag => _bag;
     }
 }
