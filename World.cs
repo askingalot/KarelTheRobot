@@ -35,7 +35,6 @@ namespace KarelTheRobot
         public void Display()
         {
             int padding = 3;
-            int borderSize = 1;
             char upperLeft = '\u250F';
             char upperRight = '\u2513';
             char lowerLeft = '\u2517';
@@ -66,8 +65,8 @@ namespace KarelTheRobot
             Console.Write(new string('\n', padding));
 
             Console.SetCursorPosition(
-                (_robot.Avenue - 1) + borderSize + padding,
-                (_streetCount - _robot.Street - 1) + borderSize + padding);
+                _robot.Avenue + padding,
+                (_streetCount - _robot.Street) + padding);
 
             Console.Write(_robot);
 
