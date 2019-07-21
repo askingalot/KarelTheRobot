@@ -1,4 +1,6 @@
-﻿namespace KarelTheRobot
+﻿using System;
+
+namespace KarelTheRobot
 {
     class Program
     {
@@ -7,11 +9,30 @@
             var world = new World();
             var karel = new Robot(world);
             karel.Move();
-            karel.TurnLeft();
+            if (karel.LeftIsClear) {
+                karel.TurnLeft();
+            } else if (karel.RightIsClear) {
+                TurnRight(karel);
+            }
             karel.Move();
             karel.TurnLeft();
             karel.Move();
-            karel.Move();
+            if (karel.FrontIsClear)
+            {
+                karel.Move();
+            }
+            else
+            {
+                karel.TurnLeft();
+                karel.Move();
+            }
+        }
+
+        private static void TurnRight(Robot karel)
+        {
+            karel.TurnLeft();
+            karel.TurnLeft();
+            karel.TurnLeft();
         }
     }
 }

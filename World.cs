@@ -16,6 +16,9 @@ namespace KarelTheRobot
             _robot = robot;
         }
 
+        public ObjectType ObjectTypeAt((int street, int avenue) pos) =>
+            ObjectTypeAt(pos.street, pos.avenue);
+
         public ObjectType ObjectTypeAt(int street, int avenue)
         {
             if (street == 0 || avenue == 0 ||

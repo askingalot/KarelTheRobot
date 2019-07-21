@@ -1,16 +1,8 @@
 using System;
+using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
 {
-    public class RobotDestructionException : Exception {
-        public RobotDestructionException(string message) 
-            : base($"Robot Destroyed! ({message})") { }
-    }
-
-    public class RobotWallCollisionException : RobotDestructionException {
-        public RobotWallCollisionException() : base("Hit a wall") { }
-    }
-
     public class Robot
     {
         // Run East - West
@@ -31,50 +23,29 @@ namespace KarelTheRobot
             _world.Display();
         }
 
+        public bool FrontIsClear =>
+            _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall;
+
+        public bool LeftIsClear =>
+            _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall;
+
+        public bool RightIsClear =>
+            _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
+
         public void Move()
         {
-            var (street, avenue) = (_street, _avenue);
-            switch (_direction)
-            {
-                case Direction.North:
-                    street++;
-                    break;
-                case Direction.South:
-                    street--;
-                    break;
-                case Direction.East:
-                    avenue++;
-                    break;
-                case Direction.West:
-                    avenue--;
-                    break;
-            }
-
-            (_street, _avenue) = (street, avenue);
+            (_street, _avenue) = PositionAt(_direction);
             _world.Display();
 
-            if (_world.ObjectTypeAt(street, avenue) == ObjectType.Wall) {
+            if (_world.ObjectTypeAt(_street, _avenue) == ObjectType.Wall)
+            {
                 throw new RobotWallCollisionException();
             }
         }
 
         public void TurnLeft()
         {
-            switch (_direction)
-            {
-                case Direction.North:
-                    _direction = Direction.West;
-                    break;
-                case Direction.South:
-                    _direction = Direction.East;
-                    break;
-                case Direction.East:
-                    _direction = Direction.North;
-                    break;
-                case Direction.West:
-                    _direction = Direction.South;
-                    break;
-            }
+            _direction = LeftDirection;
             _world.Display();
         }
 
@@ -92,6 +63,63 @@ namespace KarelTheRobot
                     return "<";
                 default:
                     throw new Exception("Invalid Direction");
+            }
+        }
+
+        private (int street, int avenue) PositionAt(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    return (_street + 1, _avenue);
+                case Direction.South:
+                    return (_street - 1, _avenue);
+                case Direction.East:
+                    return (_street, _avenue + 1);
+                case Direction.West:
+                    return (_street, _avenue - 1);
+                default:
+                    throw new Exception("Invalid Direction");
+            }
+        }
+
+        private Direction RightDirection
+        {
+            get
+            {
+                switch (_direction)
+                {
+                    case Direction.North:
+                        return Direction.East;
+                    case Direction.South:
+                        return Direction.West;
+                    case Direction.East:
+                        return Direction.South;
+                    case Direction.West:
+                        return Direction.North;
+                    default:
+                        throw new Exception("Invalid Direction");
+                }
+            }
+        }
+
+        private Direction LeftDirection
+        {
+            get
+            {
+                switch (_direction)
+                {
+                    case Direction.North:
+                        return Direction.West;
+                    case Direction.South:
+                        return Direction.East;
+                    case Direction.East:
+                        return Direction.North;
+                    case Direction.West:
+                        return Direction.South;
+                    default:
+                        throw new Exception("Invalid Direction");
+                }
             }
         }
     }
