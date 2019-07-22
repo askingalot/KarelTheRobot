@@ -10,11 +10,14 @@ namespace KarelTheRobot
         private int _streetCount = 10;
         private int _avenueCount = 20;
         private Robot _robot;
-        private List<Beeper> _beepers = new List<Beeper> {
-            new Beeper { Street = 2, Avenue = 4 },
-            new Beeper { Street = 10, Avenue = 15 },
-            new Beeper { Street = 5, Avenue = 19 },
-        };
+        private List<Beeper> _beepers;
+        private readonly WorldConfig _config;
+
+        public World(WorldConfig config)
+        {
+            _config = config;
+            _beepers = _config.Beepers;
+        }
 
         public void PlaceRobot(Robot robot)
         {
@@ -82,17 +85,17 @@ namespace KarelTheRobot
             Console.Write(lowerRight);
             Console.Write(new string('\n', padding));
 
-            Console.SetCursorPosition(
-                _robot.Avenue + padding,
-                (_streetCount - _robot.Street) + padding);
-            Console.Write(_robot);
-
             foreach (var beeper in _beepers) {
                 Console.SetCursorPosition(
                     beeper.Avenue + padding,
                     (_streetCount - beeper.Street) + padding);
                 Console.Write(beeper);
             }
+
+            Console.SetCursorPosition(
+                _robot.Avenue + padding,
+                (_streetCount - _robot.Street) + padding);
+            Console.Write(_robot);
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
             Thread.Sleep(500);

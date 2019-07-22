@@ -4,8 +4,9 @@
     {
         static void Main(string[] args)
         {
-            var world = new World();
+            var world = new World(WorldConfig.Empty);
             var karel = new Robot(world);
+
             karel.Move();
             if (karel.LeftIsClear) {
                 karel.TurnLeft();
