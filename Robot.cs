@@ -32,13 +32,17 @@ namespace KarelTheRobot
             _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall;
         public bool IsRightClear =>
             _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
+
         public bool IsNextToBeeper =>
             _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper;
+
+        public bool AreAnyBeepersInBag => _bag.Any();
 
         public bool IsFacingNorth => IsFacing(Direction.North);
         public bool IsFacingSouth => IsFacing(Direction.South);
         public bool IsFacingEast => IsFacing(Direction.East);
         public bool IsFacingWest => IsFacing(Direction.West);
+
 
         public void PickBeeper()
         {
