@@ -28,15 +28,17 @@ namespace KarelTheRobot
 
         public bool IsFrontClear =>
             _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall;
-
         public bool IsLeftClear =>
             _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall;
-
         public bool IsRightClear =>
             _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
-
         public bool IsNextToBeeper =>
             _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper;
+
+        public bool IsFacingNorth => IsFacing(Direction.North);
+        public bool IsFacingSouth => IsFacing(Direction.South);
+        public bool IsFacingEast => IsFacing(Direction.East);
+        public bool IsFacingWest => IsFacing(Direction.West);
 
         public void PickBeeper()
         {
@@ -93,6 +95,11 @@ namespace KarelTheRobot
                 default:
                     throw new Exception("Invalid Direction");
             }
+        }
+
+        private bool IsFacing(Direction direction)
+        {
+            return _direction == direction;
         }
 
         private (int street, int avenue) PositionAt(Direction direction)
