@@ -7,6 +7,8 @@
             var world = new World(WorldConfig.CornerBeepers);
             var karel = new Robot(world);
 
+            karel.TurnOn();
+
             karel.Move();
             if (karel.IsLeftClear)
             {
@@ -16,6 +18,8 @@
             {
                 TurnRight(karel);
             }
+
+
             karel.Move();
             karel.TurnLeft();
             karel.Move();

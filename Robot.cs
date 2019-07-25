@@ -5,8 +5,11 @@ using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
 {
+    // TODO: See if you can get a finalizer throw an error if the robot hasn't been turned off.
     public class Robot
     {
+        private bool _isOn = false;
+
         // Run East - West
         private int _street = 1;
         public int Street => _street;
@@ -17,71 +20,101 @@ namespace KarelTheRobot
 
         private Direction _direction = Direction.East;
         private readonly World _world;
+
         private readonly List<Beeper> _bag = new List<Beeper>();
+        public List<Beeper> Bag => _bag;
 
         public Robot(World world)
         {
             _world = world;
-            world.PlaceRobot(this);
+            _world.PlaceRobot(this);
             _world.Display();
         }
 
         public bool IsFrontClear =>
-            _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall;
+            ConfirmOnThen(() =>
+                _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall);
         public bool IsLeftClear =>
-            _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall;
+            ConfirmOnThen(() =>
+                _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall);
         public bool IsRightClear =>
-            _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
+            ConfirmOnThen(() =>
+                _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall);
 
         public bool IsNextToBeeper =>
-            _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper;
+            ConfirmOnThen(() =>
+                _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper);
 
-        public bool AreAnyBeepersInBag => _bag.Any();
+        public bool AreAnyBeepersInBag => ConfirmOnThen(() => _bag.Any());
 
-        public bool IsFacingNorth => IsFacing(Direction.North);
-        public bool IsFacingSouth => IsFacing(Direction.South);
-        public bool IsFacingEast => IsFacing(Direction.East);
-        public bool IsFacingWest => IsFacing(Direction.West);
+        public bool IsFacingNorth => ConfirmOnThen(() => IsFacing(Direction.North));
+        public bool IsFacingSouth => ConfirmOnThen(() => IsFacing(Direction.South));
+        public bool IsFacingEast => ConfirmOnThen(() => IsFacing(Direction.East));
+        public bool IsFacingWest => ConfirmOnThen(() => IsFacing(Direction.West));
 
+        public void TurnOn()
+        {
+            if (_isOn)
+            {
+                throw new RobotDestructionException("Robot is already on");
+            }
+            _isOn = true;
+        }
+        public void TurnOff()
+        {
+            ConfirmOnThen(() => _isOn = false);
+        }
 
         public void PickBeeper()
         {
-            try
+            ConfirmOnThen(() =>
             {
-                var beeper = _world.GetBeeper(_street, _avenue);
-                _bag.Add(beeper);
-            }
-            catch (BeeperNotFoundException ex)
-            {
-                throw new RobotDestructionException("", ex);
-            }
+                try
+                {
+                    var beeper = _world.GetBeeper(_street, _avenue);
+                    _bag.Add(beeper);
+                }
+                catch (BeeperNotFoundException ex)
+                {
+                    throw new RobotDestructionException("", ex);
+                }
+            });
         }
 
         public void PutBeeper()
         {
-            var beeper = _bag[0];
-            _bag.Remove(beeper);
+            ConfirmOnThen(() =>
+            {
+                var beeper = _bag[0];
+                _bag.Remove(beeper);
 
-            beeper.Street = _street;
-            beeper.Avenue = _avenue;
-            _world.PlaceBeeper(beeper);
+                beeper.Street = _street;
+                beeper.Avenue = _avenue;
+                _world.PlaceBeeper(beeper);
+            });
         }
 
         public void Move()
         {
-            (_street, _avenue) = PositionAt(_direction);
-            _world.Display();
-
-            if (_world.ObjectTypeAt(_street, _avenue) == ObjectType.Wall)
+            ConfirmOnThen(() =>
             {
-                throw new RobotWallCollisionException();
-            }
+                (_street, _avenue) = PositionAt(_direction);
+                _world.Display();
+
+                if (_world.ObjectTypeAt(_street, _avenue) == ObjectType.Wall)
+                {
+                    throw new RobotWallCollisionException();
+                }
+            });
         }
 
         public void TurnLeft()
         {
-            _direction = LeftDirection;
-            _world.Display();
+            ConfirmOnThen(() =>
+            {
+                _direction = LeftDirection;
+                _world.Display();
+            });
         }
 
         public override string ToString()
@@ -163,6 +196,23 @@ namespace KarelTheRobot
             }
         }
 
-        public List<Beeper> Bag => _bag;
+        private T ConfirmOnThen<T>(Func<T> ifOnAction)
+        {
+            if (!_isOn)
+            {
+                throw new RobotDestructionException("Cannot use robot when it is off.");
+            }
+            return ifOnAction();
+        }
+
+        private void ConfirmOnThen(Action ifOnAction)
+        {
+            if (!_isOn)
+            {
+                throw new RobotDestructionException("Cannot use robot when it is off.");
+            }
+            ifOnAction();
+        }
+
     }
 }
