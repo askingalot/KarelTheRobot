@@ -4,19 +4,22 @@
     {
         static void Main(string[] args)
         {
-            var world = new World(WorldConfig.Empty);
+            var world = new World(WorldConfig.CornerBeepers);
             var karel = new Robot(world);
 
             karel.Move();
-            if (karel.LeftIsClear) {
+            if (karel.IsLeftClear)
+            {
                 karel.TurnLeft();
-            } else if (karel.RightIsClear) {
+            }
+            else if (karel.IsRightClear)
+            {
                 TurnRight(karel);
             }
             karel.Move();
             karel.TurnLeft();
             karel.Move();
-            if (karel.FrontIsClear)
+            if (karel.IsFrontClear)
             {
                 karel.Move();
             }

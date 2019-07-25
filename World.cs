@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
 {
@@ -30,8 +31,13 @@ namespace KarelTheRobot
             }
         }
 
-        public void GetBeeper() {
-
+        public Beeper GetBeeper(int street, int avenue) {
+            var beeper =_beepers.FirstOrDefault(b => b.Street == street && b.Avenue == avenue);
+            if (beeper == null) {
+                throw new BeeperNotFoundException(street, avenue);
+            }
+            _beepers.Remove(beeper);
+            return beeper;
         }
 
         public ObjectType ObjectTypeAt((int street, int avenue) pos) =>

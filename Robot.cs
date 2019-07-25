@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
@@ -25,17 +26,39 @@ namespace KarelTheRobot
             _world.Display();
         }
 
-        public bool FrontIsClear =>
+        public bool IsFrontClear =>
             _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall;
 
-        public bool LeftIsClear =>
+        public bool IsLeftClear =>
             _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall;
 
-        public bool RightIsClear =>
+        public bool IsRightClear =>
             _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall;
 
-        public void PickBeeper() {
+        public bool IsNextToBeeper =>
+            _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper;
 
+        public void PickBeeper()
+        {
+            try
+            {
+                var beeper = _world.GetBeeper(_street, _avenue);
+                _bag.Add(beeper);
+            }
+            catch (BeeperNotFoundException ex)
+            {
+                throw new RobotDestructionException("", ex);
+            }
+        }
+
+        public void PutBeeper()
+        {
+            var beeper = _bag[0];
+            _bag.Remove(beeper);
+
+            beeper.Street = _street;
+            beeper.Avenue = _avenue;
+            _world.PlaceBeeper(beeper);
         }
 
         public void Move()

@@ -6,5 +6,8 @@ namespace KarelTheRobot.Exceptions
     {
         public RobotDestructionException(string message)
             : base($"Robot Destroyed! ({message})") { }
+
+        public RobotDestructionException(string message, Exception inner)
+            : base($"Robot Destroyed! ({message})", inner) { }
     }
 }
