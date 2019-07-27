@@ -8,8 +8,8 @@ namespace KarelTheRobot
 {
     public class World
     {
-        private int _streetCount = 10;
-        private int _avenueCount = 20;
+        private int _streetCount = 20;
+        private int _avenueCount = 40;
         private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
@@ -102,6 +102,12 @@ namespace KarelTheRobot
             Console.Write(upperLeft);
             Console.Write(new string(topHorizontalWall, _avenueCount));
             Console.Write(upperRight);
+
+            if (_log.Any())
+            {
+                Console.Write($"  --Log--");
+            }
+
             for (var i = 0; i < _streetCount; i++)
             {
                 Console.WriteLine();
@@ -112,8 +118,12 @@ namespace KarelTheRobot
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(new string('\u00B7', _avenueCount));
                 Console.ForegroundColor = prevFgColor;
-
                 Console.Write(rightVerticalWall);
+
+                if (i < _log.Count)
+                {
+                    Console.Write($"    {_log[i]}");
+                }
             }
             Console.WriteLine();
             Console.Write(new string(' ', padding));
@@ -131,12 +141,6 @@ namespace KarelTheRobot
             }
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
-            Console.WriteLine("---------------------------");
-            foreach (var msg in _log)
-            {
-                Console.WriteLine(msg);
-            }
-            Console.WriteLine("---------------------------");
             Thread.Sleep(500);
         }
     }
