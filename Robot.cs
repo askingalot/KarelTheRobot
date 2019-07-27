@@ -5,7 +5,6 @@ using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
 {
-    // TODO: See if you can get a finalizer throw an error if the robot hasn't been turned off.
     public class Robot
     {
         private bool _isOn = false;
@@ -26,6 +25,7 @@ namespace KarelTheRobot
 
         public Robot(World world)
         {
+            AddListenerToCheckOnOffStatusAtAppShutdown();
             _world = world;
             _world.PlaceRobot(this);
             _world.Display();
@@ -200,7 +200,7 @@ namespace KarelTheRobot
         {
             if (!_isOn)
             {
-                throw new RobotDestructionException("Cannot use robot when it is off.");
+                throw new RobotDestructionException("Cannot use the robot when it is off.");
             }
             return ifOnAction();
         }
@@ -209,10 +209,21 @@ namespace KarelTheRobot
         {
             if (!_isOn)
             {
-                throw new RobotDestructionException("Cannot use robot when it is off.");
+                throw new RobotDestructionException("Cannot use the robot when it is off.");
             }
             ifOnAction();
         }
 
+        private void AddListenerToCheckOnOffStatusAtAppShutdown()
+        {
+            AppDomain.CurrentDomain.ProcessExit += (sender, args) =>
+            {
+                if (_isOn)
+                {
+                    throw new RobotDestructionException(
+                        "Please turn the robot off before exiting the program.");
+                }
+            };
+        }
     }
 }

@@ -32,6 +32,7 @@
                 karel.TurnLeft();
                 karel.Move();
             }
+            karel.TurnOff();
         }
 
         private static void TurnRight(Robot karel)
