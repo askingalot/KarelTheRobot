@@ -10,7 +10,7 @@ namespace KarelTheRobot
     {
         private int _streetCount = 20;
         private int _avenueCount = 40;
-        private int _sleepInterval = 400;
+        private int _sleepInterval = 500;
         private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
@@ -96,6 +96,7 @@ namespace KarelTheRobot
             char leftVerticalWall = '\u2523';
             char rightVerticalWall = '\u252B';
 
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine();

@@ -117,9 +117,9 @@ namespace KarelTheRobot
                 case Direction.South:
                     return "▼";
                 case Direction.East:
-                    return "▶";
+                    return ">";
                 case Direction.West:
-                    return "◀";
+                    return "<";
                 default:
                     throw new Exception("Invalid Direction");
             }
