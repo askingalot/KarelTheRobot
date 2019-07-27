@@ -10,6 +10,7 @@ namespace KarelTheRobot
     {
         private int _streetCount = 10;
         private int _avenueCount = 20;
+        private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
         private List<Wall> _walls;
@@ -77,6 +78,11 @@ namespace KarelTheRobot
             return ObjectType.Emptiness;
         }
 
+        public void Log(string message)
+        {
+            _log.Add(message);
+        }
+
         public void Display()
         {
             int padding = 3;
@@ -125,6 +131,12 @@ namespace KarelTheRobot
             }
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
+            Console.WriteLine("---------------------------");
+            foreach (var msg in _log)
+            {
+                Console.WriteLine(msg);
+            }
+            Console.WriteLine("---------------------------");
             Thread.Sleep(500);
         }
     }

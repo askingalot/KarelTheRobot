@@ -7,34 +7,33 @@
             var world = new World(WorldConfig.Steps);
             var karel = new Robot(world);
 
+            var beeperCount = 0;
+
             karel.TurnOn();
 
-            for (int i = 0; i < 14; i++)
+            while (beeperCount < 4)
             {
-                karel.Move();
-            }
-            if (karel.IsLeftClear)
-            {
-                karel.TurnLeft();
-            }
-            else if (karel.IsRightClear)
-            {
-                TurnRight(karel);
-            }
+                world.Log(beeperCount.ToString());
+                while (!karel.IsFacingEast)
+                {
+                    karel.TurnLeft();
+                }
 
+                while (karel.IsFrontClear && !karel.IsNextToBeeper)
+                {
+                    karel.Move();
+                }
 
-            karel.Move();
-            karel.TurnLeft();
-            karel.Move();
-            if (karel.IsFrontClear)
-            {
-                karel.Move();
-            }
-            else
-            {
+                if (karel.IsNextToBeeper)
+                {
+                    karel.PickBeeper();
+                    beeperCount++;
+                }
+
                 karel.TurnLeft();
                 karel.Move();
             }
+
             karel.TurnOff();
         }
 
