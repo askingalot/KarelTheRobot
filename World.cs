@@ -11,6 +11,7 @@ namespace KarelTheRobot
         private int _streetCount = 20;
         private int _avenueCount = 40;
         private int _sleepInterval = 500;
+        private bool _isFirstDisplay = true;
         private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
@@ -97,7 +98,11 @@ namespace KarelTheRobot
             char rightVerticalWall = '\u252B';
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.Clear();
+            if (_isFirstDisplay) {
+                Console.Clear();
+                _isFirstDisplay = false;
+            }
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine();
             Console.WriteLine();
             Console.Write(new string(' ', padding));
