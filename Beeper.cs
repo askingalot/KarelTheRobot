@@ -2,13 +2,11 @@ using System;
 
 namespace KarelTheRobot
 {
-    public class Beeper
+    public class Beeper : WorldObject
     {
-        public int Street { get; set; }
-        public int Avenue { get; set; }
+        public Beeper(int street, int avenue) : base(street, avenue) { }
 
-        public Beeper() : this(1, 1) { } 
-        public Beeper(int street, int avenue)
+        public void SetLocation(int street, int avenue)
         {
             Street = street;
             Avenue = avenue;

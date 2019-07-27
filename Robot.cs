@@ -5,17 +5,9 @@ using KarelTheRobot.Exceptions;
 
 namespace KarelTheRobot
 {
-    public class Robot
+    public class Robot : WorldObject
     {
         private bool _isOn = false;
-
-        // Run East - West
-        private int _street = 1;
-        public int Street => _street;
-
-        // Run North - South
-        private int _avenue = 1;
-        public int Avenue => _avenue;
 
         private Direction _direction = Direction.East;
         private readonly World _world;
@@ -23,7 +15,7 @@ namespace KarelTheRobot
         private readonly List<Beeper> _bag = new List<Beeper>();
         public List<Beeper> Bag => _bag;
 
-        public Robot(World world)
+        public Robot(World world) : base(1, 1)
         {
             AddListenerToCheckOnOffStatusAtAppShutdown();
             _world = world;
@@ -43,7 +35,7 @@ namespace KarelTheRobot
 
         public bool IsNextToBeeper =>
             ConfirmOnThen(() =>
-                _world.ObjectTypeAt(_street, _avenue) == ObjectType.Beeper);
+                _world.ObjectTypeAt(Street, Avenue) == ObjectType.Beeper);
 
         public bool AreAnyBeepersInBag => ConfirmOnThen(() => _bag.Any());
 
@@ -71,7 +63,7 @@ namespace KarelTheRobot
             {
                 try
                 {
-                    var beeper = _world.GetBeeper(_street, _avenue);
+                    var beeper = _world.GetBeeper(Street, Avenue);
                     _bag.Add(beeper);
                 }
                 catch (BeeperNotFoundException ex)
@@ -88,8 +80,7 @@ namespace KarelTheRobot
                 var beeper = _bag[0];
                 _bag.Remove(beeper);
 
-                beeper.Street = _street;
-                beeper.Avenue = _avenue;
+                beeper.SetLocation(Street, Avenue);
                 _world.PlaceBeeper(beeper);
             });
         }
@@ -98,10 +89,10 @@ namespace KarelTheRobot
         {
             ConfirmOnThen(() =>
             {
-                (_street, _avenue) = PositionAt(_direction);
+                (Street, Avenue) = PositionAt(_direction);
                 _world.Display();
 
-                if (_world.ObjectTypeAt(_street, _avenue) == ObjectType.Wall)
+                if (_world.ObjectTypeAt(Street, Avenue) == ObjectType.Wall)
                 {
                     throw new RobotWallCollisionException();
                 }
@@ -144,13 +135,13 @@ namespace KarelTheRobot
             switch (direction)
             {
                 case Direction.North:
-                    return (_street + 1, _avenue);
+                    return (Street + 1, Avenue);
                 case Direction.South:
-                    return (_street - 1, _avenue);
+                    return (Street - 1, Avenue);
                 case Direction.East:
-                    return (_street, _avenue + 1);
+                    return (Street, Avenue + 1);
                 case Direction.West:
-                    return (_street, _avenue - 1);
+                    return (Street, Avenue - 1);
                 default:
                     throw new Exception("Invalid Direction");
             }

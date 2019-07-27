@@ -4,12 +4,15 @@
     {
         static void Main(string[] args)
         {
-            var world = new World(WorldConfig.CornerBeepers);
+            var world = new World(WorldConfig.Steps);
             var karel = new Robot(world);
 
             karel.TurnOn();
 
-            karel.Move();
+            for (int i = 0; i < 14; i++)
+            {
+                karel.Move();
+            }
             if (karel.IsLeftClear)
             {
                 karel.TurnLeft();

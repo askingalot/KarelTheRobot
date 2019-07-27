@@ -12,12 +12,20 @@ namespace KarelTheRobot
         private int _avenueCount = 20;
         private Robot _robot;
         private List<Beeper> _beepers;
+        private List<Wall> _walls;
         private readonly WorldConfig _config;
+
+        // Note: later elements will be drawn on top of earlier elements
+        private IEnumerable<WorldObject> _worldObjects =>
+            _beepers
+                .Concat<WorldObject>(_walls)
+                .Concat(new[] { _robot });
 
         public World(WorldConfig config)
         {
             _config = config;
             _beepers = _config.Beepers;
+            _walls = _config.Walls;
         }
 
         public void PlaceRobot(Robot robot)
@@ -25,15 +33,19 @@ namespace KarelTheRobot
             _robot = robot;
         }
 
-        public void PlaceBeeper(Beeper beeper) {
-            if (!_beepers.Contains(beeper)) {
+        public void PlaceBeeper(Beeper beeper)
+        {
+            if (!_beepers.Contains(beeper))
+            {
                 _beepers.Add(beeper);
             }
         }
 
-        public Beeper GetBeeper(int street, int avenue) {
-            var beeper =_beepers.FirstOrDefault(b => b.Street == street && b.Avenue == avenue);
-            if (beeper == null) {
+        public Beeper GetBeeper(int street, int avenue)
+        {
+            var beeper = _beepers.FirstOrDefault(b => b.Street == street && b.Avenue == avenue);
+            if (beeper == null)
+            {
                 throw new BeeperNotFoundException(street, avenue);
             }
             _beepers.Remove(beeper);
@@ -45,15 +57,21 @@ namespace KarelTheRobot
 
         public ObjectType ObjectTypeAt(int street, int avenue)
         {
-            if (street == 0 || avenue == 0 ||
-                street == _streetCount + 1 || avenue == _avenueCount + 1)
-            {
-                return ObjectType.Wall;
-            }
             if (street < 0 || avenue < 0 ||
                 street > _streetCount + 1 || avenue > _avenueCount + 1)
             {
                 throw new Exception("Location outside the world");
+            }
+            if (street == 0 || avenue == 0
+                || street == _streetCount + 1 || avenue == _avenueCount + 1
+                || _walls.Any(w => w.Street == street && w.Avenue == avenue))
+            {
+                return ObjectType.Wall;
+            }
+
+            if (_beepers.Any(b => b.Street == street && b.Avenue == avenue))
+            {
+                return ObjectType.Beeper;
             }
 
             return ObjectType.Emptiness;
@@ -78,7 +96,7 @@ namespace KarelTheRobot
             Console.Write(upperLeft);
             Console.Write(new string(topHorizontalWall, _avenueCount));
             Console.Write(upperRight);
-            for (int i = 0; i < _streetCount; i++)
+            for (var i = 0; i < _streetCount; i++)
             {
                 Console.WriteLine();
                 Console.Write(new string(' ', padding));
@@ -98,17 +116,13 @@ namespace KarelTheRobot
             Console.Write(lowerRight);
             Console.Write(new string('\n', padding));
 
-            foreach (var beeper in _beepers) {
+            foreach (var wo in _worldObjects)
+            {
                 Console.SetCursorPosition(
-                    beeper.Avenue + padding,
-                    (_streetCount - beeper.Street) + padding);
-                Console.Write(beeper);
+                    wo.Avenue + padding,
+                    (_streetCount - wo.Street) + padding);
+                Console.Write(wo);
             }
-
-            Console.SetCursorPosition(
-                _robot.Avenue + padding,
-                (_streetCount - _robot.Street) + padding);
-            Console.Write(_robot);
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
             Thread.Sleep(500);
