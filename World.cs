@@ -10,6 +10,7 @@ namespace KarelTheRobot
     {
         private int _streetCount = 20;
         private int _avenueCount = 40;
+        private int _sleepInterval = 400;
         private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
@@ -141,7 +142,7 @@ namespace KarelTheRobot
             }
 
             Console.SetCursorPosition(0, _streetCount + padding * 2);
-            Thread.Sleep(500);
+            Thread.Sleep(_sleepInterval);
         }
     }
 }
