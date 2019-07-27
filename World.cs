@@ -66,28 +66,35 @@ namespace KarelTheRobot
             char upperRight = '\u2513';
             char lowerLeft = '\u2517';
             char lowerRight = '\u251B';
-            char horizontalWall = '\u2501';
-            char verticalWall = '\u2503';
+            char topHorizontalWall = '\u252F';
+            char bottomHorizontalWall = '\u2537';
+            char leftVerticalWall = '\u2523';
+            char rightVerticalWall = '\u252B';
 
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine();
             Console.Write(new string(' ', padding));
             Console.Write(upperLeft);
-            Console.Write(new string(horizontalWall, _avenueCount));
+            Console.Write(new string(topHorizontalWall, _avenueCount));
             Console.Write(upperRight);
             for (int i = 0; i < _streetCount; i++)
             {
                 Console.WriteLine();
                 Console.Write(new string(' ', padding));
-                Console.Write(verticalWall);
-                Console.Write(new string(' ', _avenueCount));
-                Console.Write(verticalWall);
+                Console.Write(leftVerticalWall);
+
+                var prevFgColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(new string('\u00B7', _avenueCount));
+                Console.ForegroundColor = prevFgColor;
+
+                Console.Write(rightVerticalWall);
             }
             Console.WriteLine();
             Console.Write(new string(' ', padding));
             Console.Write(lowerLeft);
-            Console.Write(new string(horizontalWall, _avenueCount));
+            Console.Write(new string(bottomHorizontalWall, _avenueCount));
             Console.Write(lowerRight);
             Console.Write(new string('\n', padding));
 
