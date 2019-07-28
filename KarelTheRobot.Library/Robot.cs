@@ -51,6 +51,7 @@ namespace KarelTheRobot.Library
             }
             _isOn = true;
         }
+
         public void TurnOff()
         {
             ConfirmOnThen(() => _isOn = false);

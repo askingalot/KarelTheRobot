@@ -10,7 +10,7 @@ namespace KarelTheRobot.Library
     {
         private int _streetCount = 20;
         private int _avenueCount = 40;
-        private int _sleepInterval = 500;
+        private int _sleepInterval = 350;
         private bool _isFirstDisplay = true;
         private List<string> _log = new List<string>();
         private Robot _robot;
