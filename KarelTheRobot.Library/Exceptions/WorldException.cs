@@ -1,6 +1,6 @@
 using System;
 
-namespace KarelTheRobot.Exceptions
+namespace KarelTheRobot.Library.Exceptions
 {
     public class WorldException : Exception
     {

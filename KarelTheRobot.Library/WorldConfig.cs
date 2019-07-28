@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
-namespace KarelTheRobot
+namespace KarelTheRobot.Library
 {
     public class WorldConfig
     {
-        public List<Beeper> Beepers { get; }
-        public List<Wall> Walls { get; }
+        internal List<Beeper> Beepers { get; }
+        internal List<Wall> Walls { get; }
 
-        public WorldConfig(List<Beeper> beepers = null, List<Wall> walls = null)
+        internal WorldConfig(List<Beeper> beepers = null, List<Wall> walls = null)
         {
             Beepers = beepers ?? new List<Beeper>();
             Walls = walls ?? new List<Wall>();

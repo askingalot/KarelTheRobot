@@ -1,4 +1,6 @@
-﻿namespace KarelTheRobot
+﻿using KarelTheRobot.Library;
+
+namespace KarelTheRobot
 {
     class Program
     {

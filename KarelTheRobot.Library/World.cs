@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using KarelTheRobot.Exceptions;
+using KarelTheRobot.Library.Exceptions;
 
-namespace KarelTheRobot
+namespace KarelTheRobot.Library
 {
     public class World
     {
@@ -31,12 +31,17 @@ namespace KarelTheRobot
             _walls = _config.Walls;
         }
 
-        public void PlaceRobot(Robot robot)
+        public void Log(string message)
+        {
+            _log.Add(message);
+        }
+
+        internal void PlaceRobot(Robot robot)
         {
             _robot = robot;
         }
 
-        public void PlaceBeeper(Beeper beeper)
+        internal void PlaceBeeper(Beeper beeper)
         {
             if (!_beepers.Contains(beeper))
             {
@@ -44,7 +49,7 @@ namespace KarelTheRobot
             }
         }
 
-        public Beeper GetBeeper(int street, int avenue)
+        internal Beeper GetBeeper(int street, int avenue)
         {
             var beeper = _beepers.FirstOrDefault(b => b.Street == street && b.Avenue == avenue);
             if (beeper == null)
@@ -55,10 +60,10 @@ namespace KarelTheRobot
             return beeper;
         }
 
-        public ObjectType ObjectTypeAt((int street, int avenue) pos) =>
+        internal ObjectType ObjectTypeAt((int street, int avenue) pos) =>
             ObjectTypeAt(pos.street, pos.avenue);
 
-        public ObjectType ObjectTypeAt(int street, int avenue)
+        internal ObjectType ObjectTypeAt(int street, int avenue)
         {
             if (street < 0 || avenue < 0 ||
                 street > _streetCount + 1 || avenue > _avenueCount + 1)
@@ -80,12 +85,7 @@ namespace KarelTheRobot
             return ObjectType.Emptiness;
         }
 
-        public void Log(string message)
-        {
-            _log.Add(message);
-        }
-
-        public void Display()
+        internal void Display()
         {
             int padding = 3;
             char upperLeft = '\u250F';

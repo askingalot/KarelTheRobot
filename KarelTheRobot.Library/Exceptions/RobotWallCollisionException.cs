@@ -1,4 +1,4 @@
-namespace KarelTheRobot.Exceptions
+namespace KarelTheRobot.Library.Exceptions
 {
     public class RobotWallCollisionException : RobotDestructionException
     {

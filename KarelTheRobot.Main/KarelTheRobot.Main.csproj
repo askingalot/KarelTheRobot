@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../KarelTheRobot.Library/KarelTheRobot.Library.csproj" />
+  </ItemGroup>
+
 </Project>

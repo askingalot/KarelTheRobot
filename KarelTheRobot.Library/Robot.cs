@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KarelTheRobot.Exceptions;
+using KarelTheRobot.Library.Exceptions;
 
-namespace KarelTheRobot
+namespace KarelTheRobot.Library
 {
     public class Robot : WorldObject
     {
@@ -13,7 +13,6 @@ namespace KarelTheRobot
         private readonly World _world;
 
         private readonly List<Beeper> _bag = new List<Beeper>();
-        public List<Beeper> Bag => _bag;
 
         public Robot(World world) : base(1, 1)
         {

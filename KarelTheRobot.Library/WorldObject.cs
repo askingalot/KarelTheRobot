@@ -1,8 +1,8 @@
-namespace KarelTheRobot
+namespace KarelTheRobot.Library
 {
     public abstract class WorldObject
     {
-        public WorldObject(int street, int avenue)
+        internal WorldObject(int street, int avenue)
         {
             Street = street;
             Avenue = avenue;
@@ -11,11 +11,11 @@ namespace KarelTheRobot
         /// <Summary>
         /// Run East - West
         /// </Summary>
-        public int Street { get; protected set; }
+        internal int Street { get; set; }
 
         /// <Summary>
         /// Run North - South
         /// </Summary>
-        public int Avenue { get; protected set; }
+        internal int Avenue { get; set; }
     }
 }

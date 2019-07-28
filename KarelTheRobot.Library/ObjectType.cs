@@ -1,4 +1,4 @@
-namespace KarelTheRobot {
+namespace KarelTheRobot.Library {
     public enum ObjectType {
         Emptiness,
         Wall,
