@@ -1,0 +1,28 @@
+{
+    "challengeText": "Pick up the beeper in front of you and move it to the opposite location across the world",
+    "streetCount": 20,
+    "avenueCount": 20,
+    "robot" : { "street": 10, "avenue": 1 },
+    "beepers": [
+        {"street": 10, "avenue": 2}
+    ],
+    "walls": [
+        {"street": 2, "avenue": 10},
+        {"street": 3, "avenue": 10},
+        {"street": 4, "avenue": 10},
+        {"street": 5, "avenue": 10},
+        {"street": 6, "avenue": 10},
+        {"street": 7, "avenue": 10},
+        {"street": 8, "avenue": 10},
+        {"street": 9, "avenue": 10},
+        {"street": 10, "avenue": 10},
+        {"street": 11, "avenue": 10},
+        {"street": 12, "avenue": 10},
+        {"street": 13, "avenue": 10},
+        {"street": 14, "avenue": 10},
+        {"street": 15, "avenue": 10},
+        {"street": 16, "avenue": 10},
+        {"street": 17, "avenue": 10},
+        {"street": 18, "avenue": 10}
+    ]
+}

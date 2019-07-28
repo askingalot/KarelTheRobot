@@ -91,15 +91,18 @@ namespace KarelTheRobot.Library
 
         internal void Display()
         {
-            int padding = 3;
-            char upperLeft = '\u250F';
-            char upperRight = '\u2513';
-            char lowerLeft = '\u2517';
-            char lowerRight = '\u251B';
-            char topHorizontalWall = '\u252F';
-            char bottomHorizontalWall = '\u2537';
-            char leftVerticalWall = '\u2523';
-            char rightVerticalWall = '\u252B';
+            var newestLog = _log
+                .SkipWhile((_, i) => _log.Count - i > _streetCount)
+                .ToList();
+            var padding = 3;
+            var upperLeft = '\u250F';
+            var upperRight = '\u2513';
+            var lowerLeft = '\u2517';
+            var lowerRight = '\u251B';
+            var topHorizontalWall = '\u252F';
+            var bottomHorizontalWall = '\u2537';
+            var leftVerticalWall = '\u2523';
+            var rightVerticalWall = '\u252B';
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             if (_isFirstDisplay) {
@@ -107,14 +110,14 @@ namespace KarelTheRobot.Library
                 _isFirstDisplay = false;
             }
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine();
+            Console.WriteLine(_config.ChallengeText);
             Console.WriteLine();
             Console.Write(new string(' ', padding));
             Console.Write(upperLeft);
             Console.Write(new string(topHorizontalWall, _avenueCount));
             Console.Write(upperRight);
 
-            if (_log.Any())
+            if (newestLog.Any())
             {
                 Console.Write($"  --Log--");
             }
@@ -131,9 +134,9 @@ namespace KarelTheRobot.Library
                 Console.ForegroundColor = prevFgColor;
                 Console.Write(rightVerticalWall);
 
-                if (i < _log.Count)
+                if (i < newestLog.Count)
                 {
-                    Console.Write($"    {_log[i]}");
+                    Console.Write($"    {newestLog[i]}");
                 }
             }
             Console.WriteLine();

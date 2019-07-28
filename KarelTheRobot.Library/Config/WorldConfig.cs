@@ -16,6 +16,8 @@ namespace KarelTheRobot.Library.Config
         internal int RobotStreet { get; }
         internal int RobotAvenue { get; }
 
+        internal string ChallengeText { get; }
+
 
         internal WorldConfig(
             int streetCount = 10,
@@ -23,7 +25,8 @@ namespace KarelTheRobot.Library.Config
             int robotStreet = 1,
             int robotAvenue = 1,
             List<Beeper> beepers = null, 
-            List<Wall> walls = null)
+            List<Wall> walls = null,
+            string challengeText = "")
         {
             StreetCount = streetCount;
             AvenueCount = avenueCount;
@@ -31,6 +34,7 @@ namespace KarelTheRobot.Library.Config
             RobotAvenue = robotAvenue;
             Beepers = beepers ?? new List<Beeper>();
             Walls = walls ?? new List<Wall>();
+            ChallengeText = challengeText;
         }
 
         public static WorldConfig FromJson(string configFileName) {
@@ -43,13 +47,15 @@ namespace KarelTheRobot.Library.Config
                 jsonConfig.robot.street,
                 jsonConfig.robot.avenue,
                 jsonConfig.beepers?.Select(b => new Beeper(b.street, b.avenue)).ToList(),
-                jsonConfig.walls?.Select(w => new Wall(w.street, w.avenue)).ToList()
+                jsonConfig.walls?.Select(w => new Wall(w.street, w.avenue)).ToList(),
+                jsonConfig.challengeText
             );
         }
 
         public static readonly WorldConfig Empty = new WorldConfig();
         public static readonly WorldConfig CornerBeepers =
             new WorldConfig(
+                challengeText: "Pick up beepers in the corers of the world",
                 streetCount: 10,
                 avenueCount: 20,
                 beepers: new List<Beeper> {
@@ -61,6 +67,7 @@ namespace KarelTheRobot.Library.Config
             );
         public static readonly WorldConfig Steps = 
             new WorldConfig(
+                challengeText: "Navigate the steps while picking up all beepers in the world",
                 streetCount: 20,
                 avenueCount: 40,
                 robotStreet: 1,

@@ -10,6 +10,7 @@ namespace KarelTheRobot.Library.Config
 
     internal class JsonConfigModel
     {
+        public string challengeText { get; set; }
         public int streetCount { get; set; }
         public int avenueCount { get; set; }
         public Location robot { get; set; }
