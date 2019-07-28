@@ -7,14 +7,14 @@ namespace KarelTheRobot
     {
         static void Main(string[] args)
         {
-            //ClearBorderBeepers();
+            ClearBorderBeepers();
             MoveBeeperAcrossBoundary();
         }
 
         private static void MoveBeeperAcrossBoundary()
         {
-            var world = new World(WorldConfig.FromJson("crossTheBoundary.json"));
-            var karel = new Robot(world);
+            World world = new World(WorldConfig.FromJson("crossTheBoundary.json"));
+            Robot karel = new Robot(world);
 
             var streetCount = 0;
 

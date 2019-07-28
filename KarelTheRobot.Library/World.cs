@@ -7,6 +7,11 @@ using KarelTheRobot.Library.Exceptions;
 
 namespace KarelTheRobot.Library
 {
+    /// <Summary>
+    ///  The robot's world is a rectangle surrounded by walls.
+    ///  It may contain internal walls and beepers for the robot to interact with.
+    ///  You may think it's a lonely place, but, fortunately, most robots enjoy time to themselves.
+    /// </Summary>
     public class World
     {
         private int _sleepInterval = 350;
@@ -25,6 +30,9 @@ namespace KarelTheRobot.Library
                 .Concat<WorldObject>(_walls)
                 .Concat(new[] { _robot });
 
+        /// <Summary>
+        ///  Make a new world based on a configuration blueprint
+        /// </Summary>
         public World(WorldConfig config)
         {
             _config = config;
@@ -34,6 +42,9 @@ namespace KarelTheRobot.Library
             _avenueCount = _config.AvenueCount;
         }
 
+        /// <Summary>
+        ///  Write a message to the screen. It will appear to the right of the world.
+        /// </Summary>
         public void Log(string message)
         {
             _log.Add(message);

@@ -5,6 +5,10 @@ using KarelTheRobot.Library.Exceptions;
 
 namespace KarelTheRobot.Library
 {
+    /// <Summary>
+    ///  A robot, perhaps named Karel, is a happy servant to you, the intrepid developer.
+    ///  Command it to navigate its world, avoid obsticals, and pick up and put down beepers.
+    /// </Summary>
     public class Robot : WorldObject
     {
         private bool _isOn = false;
@@ -14,6 +18,9 @@ namespace KarelTheRobot.Library
 
         private readonly List<Beeper> _bag = new List<Beeper>();
 
+        /// <Summary>
+        ///  Make a new Robot and put it in world
+        /// </Summary>
         public Robot(World world) : base(1, 1)
         {
             AddListenerToCheckOnOffStatusAtAppShutdown();
@@ -22,27 +29,59 @@ namespace KarelTheRobot.Library
             _world.Display();
         }
 
+        /// <Summary>
+        ///  Is the location in front of the robot free to move into?
+        /// </Summary>
         public bool IsFrontClear =>
             ConfirmOnThen(() =>
                 _world.ObjectTypeAt(PositionAt(_direction)) != ObjectType.Wall);
+        /// <Summary>
+        ///  Is the location to the left of the robot free to move into?
+        /// </Summary>
         public bool IsLeftClear =>
             ConfirmOnThen(() =>
                 _world.ObjectTypeAt(PositionAt(LeftDirection)) != ObjectType.Wall);
+        /// <Summary>
+        ///  Is the location to the right of the robot free to move into?
+        /// </Summary>
         public bool IsRightClear =>
             ConfirmOnThen(() =>
                 _world.ObjectTypeAt(PositionAt(RightDirection)) != ObjectType.Wall);
 
+        /// <Summary>
+        ///  Is there a beeper at the robot's current location?
+        /// </Summary>
         public bool IsNextToBeeper =>
             ConfirmOnThen(() =>
                 _world.ObjectTypeAt(Street, Avenue) == ObjectType.Beeper);
 
+        /// <Summary>
+        ///  Are there any beepers in the robot's bag?
+        /// </Summary>
         public bool AreAnyBeepersInBag => ConfirmOnThen(() => _bag.Any());
 
+        /// <Summary>
+        ///  Is the robot facing north? (i.e. toward the top of the screen)
+        /// </Summary>
         public bool IsFacingNorth => ConfirmOnThen(() => IsFacing(Direction.North));
+        /// <Summary>
+        ///  Is the robot facing south? (i.e. toward the bottom of the screen)
+        /// </Summary>
         public bool IsFacingSouth => ConfirmOnThen(() => IsFacing(Direction.South));
+        /// <Summary>
+        ///  Is the robot facing east? (i.e. toward the right of the screen)
+        /// </Summary>
         public bool IsFacingEast => ConfirmOnThen(() => IsFacing(Direction.East));
+        /// <Summary>
+        ///  Is the robot facing west? (i.e. toward the left of the screen)
+        /// </Summary>
         public bool IsFacingWest => ConfirmOnThen(() => IsFacing(Direction.West));
 
+        /// <Summary>
+        ///  Power up the robot. 
+        ///  The robot MUST be turned on before receiving any commends otherwise it will be destroyed.
+        ///  If the robot is already tunred on, turning it on again will destroy it.
+        /// </Summary>
         public void TurnOn()
         {
             if (_isOn)
@@ -52,11 +91,20 @@ namespace KarelTheRobot.Library
             _isOn = true;
         }
 
+        /// <Summary>
+        ///  Power off the robot. 
+        ///  The robot MUST be turned off before the application exists or it will be destroyed.
+        ///  The robot MUST be on when it is turned off, or it will be destoyed.
+        /// </Summary>
         public void TurnOff()
         {
             ConfirmOnThen(() => _isOn = false);
         }
 
+        /// <Summary>
+        ///  Pick up a beeper at the robot's current location and put it in the robot's bag.
+        ///  If there is no beeper at the robot's current location the robot will be destroyed.
+        /// </Summary>
         public void PickBeeper()
         {
             ConfirmOnThen(() =>
@@ -73,10 +121,18 @@ namespace KarelTheRobot.Library
             });
         }
 
+        /// <Summary>
+        ///  Take a beeper from the robot's bag and place it in the world at the robot's current location.
+        ///  If there is no beeper in the robot's bag, the robot will be destroyed.
+        /// </Summary>
         public void PutBeeper()
         {
             ConfirmOnThen(() =>
             {
+                if (!_bag.Any())
+                {
+                    throw new RobotDestructionException("Bag is empty");
+                }
                 var beeper = _bag[0];
                 _bag.Remove(beeper);
 
@@ -85,6 +141,10 @@ namespace KarelTheRobot.Library
             });
         }
 
+        /// <Summary>
+        ///  Move the robot one space in it's current direction.
+        ///  If the robot hits a wall it will be destroyed.
+        /// </Summary>
         public void Move()
         {
             ConfirmOnThen(() =>
@@ -99,6 +159,10 @@ namespace KarelTheRobot.Library
             });
         }
 
+
+        /// <Summary>
+        ///  Turn the robot to the left. The robot will remain in the same location.
+        /// </Summary>
         public void TurnLeft()
         {
             ConfirmOnThen(() =>
