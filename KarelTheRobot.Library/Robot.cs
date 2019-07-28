@@ -94,7 +94,7 @@ namespace KarelTheRobot.Library
         /// <Summary>
         ///  Power off the robot. 
         ///  The robot MUST be turned off before the application exists or it will be destroyed.
-        ///  The robot MUST be on when it is turned off, or it will be destoyed.
+        ///  The robot MUST be on when it is turned off, or it will be destroyed.
         /// </Summary>
         public void TurnOff()
         {
@@ -161,7 +161,7 @@ namespace KarelTheRobot.Library
 
 
         /// <Summary>
-        ///  Turn the robot to the left. The robot will remain in the same location.
+        ///  Turn the robot 90 degrees to the left. The robot will remain in the same location.
         /// </Summary>
         public void TurnLeft()
         {
