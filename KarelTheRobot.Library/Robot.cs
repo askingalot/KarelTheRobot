@@ -125,6 +125,12 @@ namespace KarelTheRobot.Library
             }
         }
 
+        internal void SetLocation(int street, int avenue)
+        {
+            Street = street;
+            Avenue = avenue;
+        }
+
         private bool IsFacing(Direction direction)
         {
             return _direction == direction;

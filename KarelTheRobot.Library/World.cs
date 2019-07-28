@@ -8,10 +8,10 @@ namespace KarelTheRobot.Library
 {
     public class World
     {
-        private int _streetCount = 20;
-        private int _avenueCount = 40;
         private int _sleepInterval = 350;
         private bool _isFirstDisplay = true;
+        private int _streetCount;
+        private int _avenueCount;
         private List<string> _log = new List<string>();
         private Robot _robot;
         private List<Beeper> _beepers;
@@ -29,6 +29,8 @@ namespace KarelTheRobot.Library
             _config = config;
             _beepers = _config.Beepers;
             _walls = _config.Walls;
+            _streetCount = _config.StreetCount;
+            _avenueCount = _config.AvenueCount;
         }
 
         public void Log(string message)
@@ -39,6 +41,7 @@ namespace KarelTheRobot.Library
         internal void PlaceRobot(Robot robot)
         {
             _robot = robot;
+            _robot.SetLocation(_config.RobotStreet, _config.RobotAvenue);
         }
 
         internal void PlaceBeeper(Beeper beeper)
