@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 
-namespace KarelTheRobot.Library
+namespace KarelTheRobot.Library.Config
 {
     public class WorldConfig
     {
@@ -12,6 +15,7 @@ namespace KarelTheRobot.Library
 
         internal int RobotStreet { get; }
         internal int RobotAvenue { get; }
+
 
         internal WorldConfig(
             int streetCount = 10,
@@ -27,6 +31,20 @@ namespace KarelTheRobot.Library
             RobotAvenue = robotAvenue;
             Beepers = beepers ?? new List<Beeper>();
             Walls = walls ?? new List<Wall>();
+        }
+
+        public static WorldConfig FromJson(string configFileName) {
+            var text = File.ReadAllText(configFileName);
+            var jsonConfig = 
+                JsonConvert.DeserializeObject<JsonConfigModel>(text);
+            return new WorldConfig(
+                jsonConfig.streetCount,
+                jsonConfig.avenueCount,
+                jsonConfig.robot.street,
+                jsonConfig.robot.avenue,
+                jsonConfig.beepers?.Select(b => new Beeper(b.street, b.avenue)).ToList(),
+                jsonConfig.walls?.Select(w => new Wall(w.street, w.avenue)).ToList()
+            );
         }
 
         public static readonly WorldConfig Empty = new WorldConfig();

@@ -1,0 +1,27 @@
+{
+    "streetCount": 10,
+    "avenueCount": 20,
+    "robot" : { "street": 5, "avenue": 10 },
+    "beepers": [
+        {"street": 1, "avenue": 1},
+        {"street": 1, "avenue": 2},
+        {"street": 1, "avenue": 3},
+        {"street": 1, "avenue": 4},
+        {"street": 1, "avenue": 5},
+        {"street": 1, "avenue": 6},
+        {"street": 1, "avenue": 7},
+        {"street": 1, "avenue": 8},
+        {"street": 1, "avenue": 9},
+        {"street": 1, "avenue": 10},
+        {"street": 1, "avenue": 11},
+        {"street": 1, "avenue": 12},
+        {"street": 1, "avenue": 13},
+        {"street": 1, "avenue": 14},
+        {"street": 1, "avenue": 15},
+        {"street": 1, "avenue": 16},
+        {"street": 1, "avenue": 17},
+        {"street": 1, "avenue": 18},
+        {"street": 1, "avenue": 19},
+        {"street": 1, "avenue": 20}
+    ]
+}

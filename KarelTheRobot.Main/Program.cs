@@ -1,4 +1,5 @@
 ﻿using KarelTheRobot.Library;
+using KarelTheRobot.Library.Config;
 
 namespace KarelTheRobot
 {
@@ -6,7 +7,8 @@ namespace KarelTheRobot
     {
         static void Main(string[] args)
         {
-            var world = new World(WorldConfig.Steps);
+            //var world = new World(WorldConfig.Steps);
+            var world = new World(WorldConfig.FromJson("borderBeepers.json"));
             var karel = new Robot(world);
 
             var beeperCount = 0;
