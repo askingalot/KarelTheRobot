@@ -56,9 +56,9 @@ A robot looks something like a triangle pointed in the robot's current direction
 ### Available Robot Commands
 
 A robot has the following built in commands:
-1. `TurnOn` - Power up the robot. The robot MUST be turned on before receiving any commends otherwise it will be destroyed. If the robot is already tunred on, turning it on again will destroy it.
+1. `TurnOn` - Power up the robot. The robot MUST be turned on before receiving any commands otherwise it will be destroyed. If the robot is already turned on, turning it on again will destroy it.
 1. `TurnOff` - Power off the robot. The robot MUST be turned off before the application exists or it will be destroyed. The robot MUST be on when it is turned off, or it will be restored.
-1. `Move` - Move the robot one space in it's current direction. If the robot hits a wall it will be destroyed.
+1. `Move` - Move the robot one space in its current direction. If the robot hits a wall it will be destroyed.
 1. `TurnLeft` - Turn the robot 90 degrees to the left. The robot will remain in the same location.
 1. `PickBeeper` - Pick up a beeper at the robot's current location and put it in the robot's bag. If there is no beeper at the robot's current location the robot will be destroyed.
 1. `PutBeeper` - Take a beeper from the robot's bag and place it in the world at the robot's current location. If there is no beeper in the robot's bag, the robot will be destroyed.
@@ -84,7 +84,7 @@ Configuration is done by way of a JSON file containing an object with the follow
 1. `robot` - An object containing two keys, `street` and `avenue`, that specifies the initial location for the robot.
 1. `beepers` - (Optional) An array describing the initial locations of each beeper in the world.
 1. `walls` - (Optional) An array describing the locations of each _internal_ wall in the world. Note: you do not need to list the outer boundaries of the world.
- 
+
 ### An Example
 ```json
 {
